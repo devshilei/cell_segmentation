@@ -51,16 +51,29 @@ ax[8].set_xticks([]), ax[8].set_yticks([])
 # plt.title("The image title")
 # plt.axis("off") # 不显示坐标轴
 # plt.imshow(img)
-plt.show()
-img2 = Image.open("demo/2.jpg")
-img_blend = Image.blend(img, img2, alpha=.7)
-img_blend.save("demo/img_2_3_blend.jpg")
-mask = img2.convert("L")
-img_composite = Image.composite(img, img2, mask)
-img_composite.save("demo/img_2_3_composite.jpg")
+# plt.show()
+
+# img2 = Image.open("demo/2.jpg")
+# img_blend = Image.blend(img, img2, alpha=.7)
+# img_blend.save("demo/img_2_3_blend.jpg")
+# mask = img2.convert("L")
+# img_composite = Image.composite(img, img2, mask)
+# img_composite.save("demo/img_2_3_composite.jpg")
 
 
 import numpy as np
 # 将 PIL Image 图片转换为 numpy 数组
 im_array = np.array(img)
 # 也可以用 np.asarray(im) 区别是 np.array() 是深拷贝，np.asarray() 是浅拷贝
+
+
+rows,cols,dims=im_array.shape
+for i in range(5000):
+    x=np.random.randint(0,rows)
+    y=np.random.randint(0,cols)
+    im_array[x,y,:]=255
+    
+plt.figure("beauty")
+plt.imshow(im_array)
+plt.axis('off')
+plt.show()
