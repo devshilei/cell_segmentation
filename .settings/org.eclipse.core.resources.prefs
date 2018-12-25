@@ -1,7 +1,6 @@
 eclipse.preferences.version=1
-encoding/image_preprocess.py=utf-8
-encoding/plt_1.py=utf-8
-encoding/plt_2.py=utf-8
-encoding/plt_3.py=utf-8
-encoding/plt_4.py=utf-8
-encoding/plt_5.py=utf-8
+encoding/data_process_all_in_one.py=utf-8
+encoding/image_preprocess_for_cv.py=utf-8
+encoding/image_preprocess_for_pillow.py=utf-8
+encoding/image_preprocess_for_skimage.py=utf-8
+encoding/test_for_pillow.py=utf-8
