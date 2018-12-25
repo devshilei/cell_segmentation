@@ -3,13 +3,10 @@
 Created on 2018年12月25日
 @author: devshilei@gmail.com
 """
-# from skimage import io, filters
-#Image和skimage读图片
-from PIL import Image, ImageDraw, ImageFont
-# import os
+from PIL import Image
 import matplotlib.pyplot as plt
 
-img = Image.open("3.jpg")
+img = Image.open("demo/3.jpg")
 print(img.getpixel((50,100)))
 print(type(img))
 print(img.size)           #图片的尺寸
@@ -17,9 +14,8 @@ print(img.mode)           #图片的模式
 print(img.format)         #图片的格式
 print(img.getpixel((0,0)))#得到像素：
 #img读出来的图片获得某点像素用getpixel((w,h))可以直接返回这个点三个通道的像素值
-
 gray = img.convert('L')
-r,g,b=img.split()
+r, g, b = img.split()
 fig, axes = plt.subplots(nrows=3, ncols=3, figsize=(8, 3), sharey=True)
 ax = axes.ravel()
 ax[0].imshow(img)
@@ -56,22 +52,15 @@ ax[8].set_xticks([]), ax[8].set_yticks([])
 # plt.axis("off") # 不显示坐标轴
 # plt.imshow(img)
 plt.show()
+img2 = Image.open("demo/2.jpg")
+img_blend = Image.blend(img, img2, alpha=.7)
+img_blend.save("demo/img_2_3_blend.jpg")
+mask = img2.convert("L")
+img_composite = Image.composite(img, img2, mask)
+img_composite.save("demo/img_2_3_composite.jpg")
 
 
-print("-" * 50)
-
-# from skimage import io, transform
-# img_file2 = io.imread("KG.jpg")
-# #得到像素：
-# print(img_file2[50][100])
-# io.imshow(img_file2)
-# print(type(img_file2))      #显示类型
-# print(img_file2.shape)      #显示尺寸
-# print(img_file2.shape[0])   #图片高度
-# print(img_file2.shape[1])   #图片宽度
-# print(img_file2.shape[2])   #图片通道数
-# print(img_file2.size)       #显示总像素个数
-# print(img_file2.max())      #最大像素值
-# print(img_file2.min())      #最小像素值
-# print(img_file2.mean())     #像素平均值
-# print(img_file2[0][0])      #图像的像素值
+import numpy as np
+# 将 PIL Image 图片转换为 numpy 数组
+im_array = np.array(img)
+# 也可以用 np.asarray(im) 区别是 np.array() 是深拷贝，np.asarray() 是浅拷贝
