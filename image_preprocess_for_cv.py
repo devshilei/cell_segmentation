@@ -4,53 +4,38 @@ Created on 2018年12月24日
 
 @author: devshilei@gmail.com
 """
-import sys
+import os
 import numpy as np
 import cv2
+# import matplotlib.pyplot as plt
 #主函数
 if __name__ =="__main__":
-    image = cv2.imread("demo/1.jpg")
-    hsv = cv2.cvtColor(image, cv2.COLOR_RGB2HSV)
-    print(hsv)
-    #显示原图
-    cv2.imshow("image", hsv)
-#     #图像归一化，且转换为浮点型
-#     fImg = image.astype(np.float32)
-#     fImg = fImg/255.0
-#     #颜色空间转换
-#     hlsImg = cv2.cvtColor(fImg,cv2.COLOR_BGR2HLS)
-#     l = 100 
-#     s = 100
-#     MAX_VALUE = 100
-#     cv2.namedWindow("l and s",cv2.WINDOW_AUTOSIZE)
-#     def nothing(*arg):
-#         pass
-#     cv2.createTrackbar("l","l and s",l,MAX_VALUE,nothing)
-#     cv2.createTrackbar("s","l and s",s,MAX_VALUE,nothing)
-#     #调整饱和度和亮度后的效果
-#     lsImg = np.zeros(image.shape,np.float32)
-#     #调整饱和度和亮度
-#     while True:
-#         #复制
-#         hlsCopy = np.copy(hlsImg)
-#         #得到 l 和 s 的值
-#         l = cv2.getTrackbarPos('l', 'l and s')
-#         s = cv2.getTrackbarPos('s', 'l and s')
-#         #调整亮度和饱和度（线性变换）
-#         hlsCopy[:,:,1] = (1.0+l/float(MAX_VALUE))*hlsCopy[:,:,1]
-#         hlsCopy[:,:,1][hlsCopy[:,:,1]>1] = 1
-#         hlsCopy[:,:,2] = (1.0+s/float(MAX_VALUE))*hlsCopy[:,:,2]
-#         hlsCopy[:,:,2][hlsCopy[:,:,2]>1] = 1
-#         # HLS2BGR
-#         lsImg = cv2.cvtColor(hlsCopy,cv2.COLOR_HLS2BGR)
-#         #显示调整后的效果
-#         cv2.imshow("l and s",lsImg)
-#         #保存结果
-#         lsImg = lsImg*255
-#         lsImg = lsImg.astype(np.uint8)
-#         cv2.imwrite("lsImg.jpg",lsImg)
-#         ch = cv2.waitKey(5)
-#         if ch == 27:
-#             break
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    root_path = "real/step_02_2_augmentation"
+    target_path = "real/step_03_2_mask"
+    filename_list = os.listdir(root_path)
+    for filename in filename_list:
+        full_path = os.path.join(root_path, filename)
+        img = cv2.imread(full_path)
+        hsv = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
+        lower, upper = np.array([156, 43, 46]), np.array([180, 255, 255])
+        mask = cv2.inRange(hsv, lower, upper)
+        #inverse = cv2.bitwise_not(mask)
+        output_image_filepath = os.path.join(target_path, filename.replace(".", "_mask."))
+        cv2.imwrite(output_image_filepath, mask)
+    print("finished".center(50, "-"))
+#     fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(8, 3), sharey=True)
+#     ax = axes.ravel()
+#     
+#     ax[0].imshow(img)
+#     ax[0].set_title('Origin image')
+#     ax[0].set_xticks([]), ax[0].set_yticks([])
+#     ax[1].imshow(hsv, cmap="gray")
+#     ax[1].set_title("HSV image")
+#     ax[1].set_xticks([]), ax[1].set_yticks([])
+#     ax[2].imshow(mask, cmap="gray")
+#     ax[2].set_title("Mask image")
+#     ax[2].set_xticks([]), ax[2].set_yticks([])
+#     ax[3].imshow(inverse, cmap="gray")
+#     ax[3].set_title("Inverse image")
+#     ax[3].set_xticks([]), ax[3].set_yticks([])
+#     plt.show()
